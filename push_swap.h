@@ -43,6 +43,7 @@ typedef struct s_data
 	double	disorder;
 }	t_data;
 
+
 void	sa(t_data *data, int print);
 void	sb(t_data *data, int print);
 void	ss(t_data *data, int print);
