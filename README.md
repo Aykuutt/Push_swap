@@ -1,4 +1,4 @@
-*This project has been created as part of the 42 curriculum by <mkaradas>, <acakici>.*
+*This project has been created as part of the 42 curriculum by mkaradas, acakici.*
 # 42 - push_swap
 
 İki stack (A ve B) ve sınırlı bir komut seti kullanarak, verilen integer dizisini minimum hamle sayısıyla küçükten büyüğe sıralama projesi. Proje 42 normlarına uygun şekilde C dilinde sıfırdan geliştirilmiştir.
