@@ -14,7 +14,10 @@ SRCS        = main.c \
               reverse_rotate.c \
               sort_utils.c \
               sort_small.c \
-              sort_large.c
+              sort_simple.c \
+              sort_large.c \
+              sort_complex.c \
+              print_bench.c
 
 OBJS        = $(SRCS:.c=.o)
 

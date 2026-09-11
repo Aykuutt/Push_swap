@@ -26,7 +26,8 @@ void	pa(t_data *data, int print)
 	data->size_b--;
 	if (print)
 		write(1, "pa\n", 3);
-	data->count++;
+	data->ops[OP_PA]++;
+	data->total_ops++;
 }
 
 void	pb(t_data *data, int print)
@@ -38,5 +39,6 @@ void	pb(t_data *data, int print)
 	data->size_a--;
 	if (print)
 		write(1, "pb\n", 3);
-	data->count++;
+	data->ops[OP_PB]++;
+	data->total_ops++;
 }

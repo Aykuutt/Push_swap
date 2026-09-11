@@ -34,3 +34,29 @@ void	set_i(t_node *stack)
 		current = current->next;
 	}
 }
+
+double	compute_disorder(t_node *stack, int size)
+{
+	t_node	*curr;
+	t_node	*runner;
+	long	mistakes;
+	long	total_pairs;
+
+	if (!stack || size <= 1)
+		return (0.0);
+	mistakes = 0;
+	total_pairs = ((long)size * (size - 1)) / 2;
+	curr = stack;
+	while (curr)
+	{
+		runner = curr->next;
+		while (runner)
+		{
+			if (curr->value > runner->value)
+				mistakes++;
+			runner = runner->next;
+		}
+		curr = curr->next;
+	}
+	return ((double)mistakes / (double)total_pairs);
+}

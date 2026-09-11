@@ -23,7 +23,8 @@ void	ra(t_data *data, int print)
 	rotate(&(data->a));
 	if (print)
 		write(1, "ra\n", 3);
-	data->count++;
+	data->ops[OP_RA]++;
+	data->total_ops++;
 }
 
 void	rb(t_data *data, int print)
@@ -31,7 +32,8 @@ void	rb(t_data *data, int print)
 	rotate(&(data->b));
 	if (print)
 		write(1, "rb\n", 3);
-	data->count++;
+	data->ops[OP_RB]++;
+	data->total_ops++;
 }
 
 void	rr(t_data *data, int print)
@@ -40,5 +42,6 @@ void	rr(t_data *data, int print)
 	rotate(&(data->b));
 	if (print)
 		write(1, "rr\n", 3);
-	data->count++;
+	data->ops[OP_RR]++;
+	data->total_ops++;
 }
