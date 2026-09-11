@@ -1,17 +1,16 @@
 *This project has been created as part of the 42 curriculum by mkaradas, acakici.*
+
 # 42 - push_swap
 
-İki stack (A ve B) ve sınırlı bir komut seti kullanarak, verilen integer dizisini minimum hamle sayısıyla küçükten büyüğe sıralama projesi. Proje 42 normlarına uygun şekilde C dilinde sıfırdan geliştirilmiştir.
+İki yığıt (Stack A ve Stack B) ve kısıtlı bir komut kümesi kullanarak verilen tamsayı dizisini minimum operasyonla küçükten büyüğe sıralayan sistem programlama projesi. 42 standartlarına ve Norminette kurallarına uygun olarak C dilinde sıfırdan geliştirilmiştir.
 
 ---
 
-## 📌 Proje Mantığı
+## 📌 Proje Mimarisi ve Mantığı
 
-Elimizde iki adet stack var:
-- **Stack A:** Başlangıçta rastgele sırayla verilen sayıları tutar.
-- **Stack B:** Sıralama sırasında ara depo olarak kullanılan boş stack.
-
-Amaç, sadece izin verilen stack manipülasyon komutlarını kullanarak **Stack A**'yı en az işlemle artan sırada sıralamaktır.
+- **Stack A:** Başlangıçta rastgele sırayla girilen tamsayıları tutar.
+- **Stack B:** Sıralama sırasında ara depo olarak kullanılan boş yığıt.
+- **Normalizasyon (Indexing):** Diziye alınan elemanlar, negatif veya çok büyük sayılardan bağımsız çalışabilmek adına sıralamadaki bağıl büyüklüklerine göre `0` ile `N - 1` aralığında indekslenir.
 
 ---
 
@@ -19,93 +18,87 @@ Amaç, sadece izin verilen stack manipülasyon komutlarını kullanarak **Stack 
 
 | Komut | Açıklama |
 | :--- | :--- |
-| `sa` / `sb` / `ss` | İlk iki elemanın yerini değiştirir (Swap). |
-| `pa` / `pb` | Bir stack'in en üstündeki elemanı diğer stack'in en üstüne atar (Push). |
-| `ra` / `rb` | Stack'teki tüm elemanları bir yukarı kaydırır; ilk eleman en sona geçer (Rotate). |
-| `rr` | `ra` ve `rb` komutlarını aynı anda çalıştırır. |
-| `rra` / `rrb` | Stack'teki tüm elemanları bir aşağı kaydırır; son eleman en başa geçer (Reverse rotate). |
-| `rrr` | `rra` ve `rrb` komutlarını aynı anda çalıştırır. |
+| `sa` / `sb` / `ss` | Yığıtın en üstündeki ilk iki elemanın yerini değiştirir (Swap). |
+| `pa` / `pb` | Bir yığıtın tepesindeki elemanı diğer yığıtın tepesine aktarır (Push). |
+| `ra` / `rb` | Tüm elemanları 1 adım yukarı kaydırır; en baştaki eleman en sona geçer (Rotate). |
+| `rr` | `ra` ve `rb` komutlarını senkronize çalıştırır. |
+| `rra` / `rrb` | Tüm elemanları 1 adım aşağı kaydırır; en sondaki eleman en başa geçer (Reverse rotate). |
+| `rrr` | `rra` ve `rrb` komutlarını senkronize çalıştırır. |
 
 ---
 
-## 🧠 Algoritma & Yaklaşım
+## 🧠 Stratejiler ve Algoritmalar
 
-Projede girdi boyutuna göre optimize edilmiş mantıklar kullanıldı:
+Program bünyesinde matematiksel karmaşıklıklarına göre farklı sıralama algoritmaları barındırır:
 
-- **2 & 3 Eleman:** Basit hard-coded koşullarla maksimum 2–3 hamlede sıralanır.
-- **4 & 5 Eleman:** En küçük sayılar Stack B'ye itilip kalan 3 sayı sıralanır, ardından geri alınır.
-- **Büyük Veri (100 & 500 Eleman):** 
-  - Sayılar önce indexlenerek normalize edildi.
-  - Elemanlar maliyet hesabı (cost/mechanical turk) veya chunk/radix tabanlı yöntemle Stack B'ye aktarıldı.
-  - En uygun komut kombinasyonları (`rr`, `rrr` optimizasyonları dahil) hesaplanarak minimum adımla Stack A'da toplandı.
+- **Small Sort (2 - 5 Eleman):** Minimum hamle kombinasyonlarıyla hard-coded çözümler.
+- **Simple ($O(n^2)$):** Minimum elemanı sürekli tepeye çekip aktaran temel sıralama yaklaşımı.
+- **Medium ($O(n\sqrt{n})$ - Chunk / Kelebek):** Sayıları dilimlere (chunk) ayırıp Stack B üzerinde kum saati/kelebek yapısı kurarak A'ya sıralı geri toplayan optimize algoritma.
+- **Complex ($O(n \log n)$ - Radix Sort):** Sayıların normalize edilmiş indekslerinin bit basamaklarına (0 ve 1) göre çalışan deterministik ikili taban algoritması.
+- **Adaptive Mod (Varsayılan):** Dizideki hatalı ikili (inversion) sayısına göre `disorder` (düzensizlik) oranını ölçer ve veriye en uygun algoritmayı otomatik seçer.
 
 ---
 
 ## 🛠️ Kurulum ve Derleme
 
-Projeyi derlemek için terminalde ana dizine gidip `make` çalıştırmanız yeterlidir:
-
 ```bash
-# Projeyi derler ve push_swap binary dosyasını üretir
+# push_swap çalıştırılabilir dosyasını derler
 make
 
-# Nesne dosyalarını (.o) temizler
+# Nesne (.o) dosyalarını temizler
 make clean
 
-# Tüm derleme çıktılarını siler
+# Tam temizlik yapar
 make fclean
 
-# Sıfırdan temiz derleme yapar
+# Sıfırdan yeniden derler
 make re
 ```
 
 ---
 
-## 🚀 Kullanım
+## 🚀 Kullanım ve Bayraklar
 
-Program argüman olarak integer listesi alır:
+Program tekil argümanları veya tırnak içinde verilen metin bloklarını kabul eder:
 
 ```bash
-./push_swap 2 1 3 6 5 8
+# Standart kullanım
+./push_swap 3 2 1 5 4
+./push_swap "3 2 1 5 4"
+
+# İstatistik ve Benchmark raporu ile çalıştırma
+./push_swap --bench 3 2 1 5 4
+
+# Belirli bir algoritmayı manuel olarak zorlama
+./push_swap --bench --simple 4 3 2 1
+./push_swap --bench --medium 4 3 2 1
+./push_swap --bench --complex 4 3 2 1
 ```
 
-Tırnak içinde tek argüman olarak da verilebilir:
+Hamle sayısını saymak ve doğrulama yapmak için:
 
 ```bash
-./push_swap "2 1 3 6 5 8"
-```
-
-Hamle sayısını test etmek için:
-
-```bash
+# Hamle adedi
 ARG="4 67 3 87 23"; ./push_swap $ARG | wc -l
-```
 
-Checker ile kontrol etmek için (OS X / Linux checker binary'si ile):
-
-```bash
-ARG="4 67 3 87 23"; ./push_swap $ARG | ./checker $ARG
+# Checker ile doğrulama (Linux/Mac checker binary'si ile)
+ARG="4 67 3 87 23"; ./push_swap $ARG | ./checker_linux $ARG
 ```
 
 ---
 
 ## ⚠️ Hata Yönetimi
 
-Aşağıdaki durumlarda program ekrana `Error\n` yazdırır ve bellek sızıntısı (leak) bırakmadan güvenli bir şekilde sonlanır:
-- Sayı harici karakter girildiğinde
-- Integer sınırlarını (`INT_MIN`, `INT_MAX`) aşan değerlerde
-- Tekrarlanan (duplicate) sayı varlığında
+Aşağıdaki senaryolarda program tüm tahsis edilmiş belleği (heap) temizler, standart hata akışına (`stderr`, fd `2`) `Error\n` basar ve `1` çıkış koduyla sonlanır:
+
+- Rakam harici geçersiz karakterler veya biçim bozuklukları
+- Integer sınırlarını (`INT_MIN`, `INT_MAX`) aşan değerler (Overflow/Underflow)
+- Yinelenen (duplicate) tamsayılar
 
 ---
 
-## 👥 Ekip
+## 👥 Ekip & AI Beyanı
 
-Bu proje iki arkadaş olarak pair-programming / collaborative mantıkla, 42 Okulu standartlarına ve Norminette kurallarına uygun şekilde geliştirilmiştir.
-
-
-## AI Kullanımı
-- readme dosyası direk yapay zekadan alındı.
-- projede bilmediğimiz yerlerde konuyu daha iyi kavramak için kullandık.
-- molinet tasarladık ve bu tasarım da çoğunluka yapay zeka kullandık.
-
-molinet linki : https://push-swap-six.vercel.app/
+- **Geliştiriciler:** `<mkaradas>`, `<acakici>` (Pair-programming / 42)
+- **AI Kullanımı:** README dokümantasyonu, kavramsal algoritma pekiştirmeleri ve görselleştirici web arayüzünün ("Molinet") tasarım süreçlerinde destekleyici araç olarak yapay zekadan faydalanılmıştır.
+- **Görselleştirici (Molinet):** https://push-swap-six.vercel.app/
