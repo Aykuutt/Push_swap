@@ -99,6 +99,6 @@ Aşağıdaki senaryolarda program tüm tahsis edilmiş belleği (heap) temizler,
 
 ## 👥 Ekip & AI Beyanı
 
-- **Geliştiriciler:** `<mkaradas>`, `<acakici>` (Pair-programming / 42)
+- **Geliştiriciler:** `mkaradas`, `acakici` (Pair-programming / 42)
 - **AI Kullanımı:** README dokümantasyonu, kavramsal algoritma pekiştirmeleri ve görselleştirici web arayüzünün ("Molinet") tasarım süreçlerinde destekleyici araç olarak yapay zekadan faydalanılmıştır.
 - **Görselleştirici (Molinet):** https://push-swap-six.vercel.app/
